@@ -33,11 +33,10 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
   composer global require drush/drush:7.* && \
   echo 'export PATH=/var/www/vendor/bin:$PATH' >> $HOME/.bashrc
 
-# Move files into the container.
+# Final provisioning.
 COPY src/ /var/www/
-
-WORKDIR /var/www
-
-RUN composer install
-
+RUN cd /var/www && \
+  composer install && \
+  cd /var/www/web && \
+  chown -R www-data:www-data sites modules themes
 WORKDIR /var/www/web

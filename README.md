@@ -1,7 +1,5 @@
 # Enterprise Drupal 8 Starter
 
-*Note:* Documentation is still being completed. Stand by!
-
 The goals of this project are the following:
 
 * Provide an end-to-end solution for a Drupal 8 application including both continuous integration and continuous deployment.
@@ -16,6 +14,7 @@ The goals of this project are the following:
 
 * [Docker](https://www.docker.com/)
 * [Docker Compose](https://docs.docker.com/compose/) _(Not required but recommended)_
+* [Composer](https://getcomposer.org/) _(Development only)_
 
 ## Table of Contents
 
@@ -90,44 +89,14 @@ post-receive shell script or just by SSH'ing on the server and creating them.
 
 ## Continuous Integration
 
-Ideally, CI will do two important tasks for us:
+Ideally, our CI will accomplish the following:
 
 1. Test the code's integrity with PHPUnit.
 2. Build the latest docker image and push it to a registery.
+3. Deploy code to server based on the branch that was pushed to.
 
-Luckily, Drupal 8 comes with a suite of phpunit tests which will test the
-integrity of its core. To run them, you must `cd` into the core directory and
-run:
+#### GitLab CI Strategy
 
-```shell
-../../vendor/phpunit/phpunit/phpunit --testsuite=unit
-```
+#### Travis CI Strategy
 
-For executing this, we recommend any of the following CI providers:
-
-* [GitLab CI](https://about.gitlab.com/features/gitlab-ci-cd/)
-* [Travis CI](https://travis-ci.org/)
-* [CircleCi](https://circleci.com/)
-
-
-[Stackahoy CLI](https://stackahoy.io/docs/cli) can be used to make automated and
-unobtrusive deployments once the CI has completed (if using CI). This usually
-happens as the last phase of the CI pipeline, and with the
-[stackahoy-cli](https://hub.docker.com/r/stackahoy/stackahoy-cli/) docker
-image, we don't even have to create a custom runner for it.
-
-The following is example from a [.gitlab-ci.yml](https://docs.gitlab.com/ee/ci/yaml/) file:
-
-```yaml
-deploy_staging:
-  image: stackahoy/stackahoy-cli
-  stage: deploy_staging
-  script:
-    - stackahoy deploy -t $STACKAHOY_TOKEN -b staging -r $REPO_ID
-  only:
-    - staging
-  tags:
-    - dind
-```
-
-TODO
+#### Circle CI Strategy
