@@ -7,23 +7,25 @@ The goals of this project are the following:
 * Provide an end-to-end solution for a Drupal 8 application including both continuous integration and continuous deployment.
 * Use Docker for both development and production environments ensuring developer's local
    machine matches the remote environment.
-* Use composer manage all dependencies based on Drupal's [Composer template for Drupal projects](https://github.com/drupal-composer/drupal-project). The core should not be versioned (execept in composer.json).
+* No assumptions should be made about the theme or high-level application layer.
+* Composer managed dependencies based on Drupal's [Composer template for Drupal projects](https://github.com/drupal-composer/drupal-project). The core should not be versioned (execept in composer.json).
 * Strategies for automated continuous integration (CI).
 * Strategies for automated continuous deployment (CD).
 
-# Dependencies
+## Dependencies
 
 * [Docker](https://www.docker.com/)
 * [Docker Compose](https://docs.docker.com/compose/) _(Not required but recommended)_
 
-# Table of Contents
+## Table of Contents
 
 1. [Installation](#installation)
 2. [Development](#development)
-3. [Continuous Integration](#continuous-integration)
-4. [Continuous Deployment](#continuous-deployment)
+3. [Preparing for launch](#preparing-for-launch)
+4. [Continuous Integration](#continuous-integration)
+5. [Continuous Deployment](#continuous-deployment)
 
-# Installation
+## Installation
 
 ##### Step 1
 
@@ -35,23 +37,9 @@ composer install
 
 This will install the Drupal's core and all dependencies.
 
-##### Step 2
+## Development
 
-Move back in to the project's root and run:
-
-```shell
-docker-compose -f docker-compose.dev.yml build
-```
-
-This will build the docker images. Once complete, view them with:
-
-```shell
-docker images
-```
-
-# Development
-
-Run the development environment with:
+Build and run the development environment with:
 
 ```shell
 docker-compose -f docker-compose.dev.yml up -d
@@ -61,7 +49,7 @@ docker-compose -f docker-compose.dev.yml up -d
 # docker-compose -p my_project -f docker-compose.dev.yml up -d
 ```
 
-See the development environment at: http://[your-docker-ip]:3000
+See the development environment at: [http://[your-docker-ip]:3000](http://[your-docker-ip]:3000)
 
 
 ### Handy commands during development
@@ -69,6 +57,9 @@ See the development environment at: http://[your-docker-ip]:3000
 ```shell
 # Tail php logs.
 docker logs -f <project-name>_drupal_1
+
+# (Re-)build the
+docker-compose -f docker-compose.dev.yml build
 
 # View running containers.
 docker images
@@ -80,7 +71,11 @@ docker-compose -f docker-compose.dev.yml down --volume
 docker-compose -f docker-compose.dev.yml down
 ```
 
-# Continuous Integration
+## Preparing for Launch
+
+TODO
+
+## Continuous Integration
 
 Ideally, CI will do two important tasks for us:
 
@@ -101,7 +96,7 @@ For executing this, we recommend any of the following CI providers:
 * [Travis CI](https://travis-ci.org/)
 * [CircleCi](https://circleci.com/)
 
-# Continuous Deployment
+## Continuous Deployment
 
 [Stackahoy CLI](https://stackahoy.io/docs/cli) can be used to make automated and
 unobtrusive deployments once the CI has completed (if using CI). This usually
@@ -123,4 +118,4 @@ deploy_staging:
     - dind
 ```
 
-
+TODO
