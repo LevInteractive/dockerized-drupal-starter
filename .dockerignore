@@ -1,0 +1,25 @@
+src/vendor/
+src/web/sites/default/files/*
+src/web/sites/default/settings.php
+.DS_Store
+
+src/drush/contrib/
+src/vendor/
+src/web/core/
+src/web/modules/contrib/
+src/web/themes/contrib/
+src/web/profiles/contrib/
+src/web/libraries/
+
+# Ignore sensitive information
+src/web/sites/*/settings.php
+src/web/sites/*/settings.local.php
+
+# Ignore Drupal's file directory
+src/web/sites/*/files/
+
+# Ignore SimpleTest multi-site environment.
+src/web/sites/simpletest
+
+conf/prod.*
+conf/staging.*

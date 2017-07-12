@@ -1,0 +1,79 @@
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#
+# This docker-compose is meant to be used in development. For other remote
+# envrionments, it should be copied to docker-compose.yml and populated with
+# more secure credentials.
+#
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+version: '3.1'
+
+services:
+  mariadb:
+    image: mariadb:10.3
+    restart: always
+    environment:
+
+      # Clearly, these credentials are not secure and you should change them for
+      # the remote environment's docker-compose.yml.
+      MYSQL_ROOT_PASSWORD: drupal
+      MYSQL_DATABASE: drupal
+      MYSQL_USER: drupal
+      MYSQL_PASSWORD: drupal
+
+    volumes:
+
+      # Let the database persist.
+      - dbstore:/var/lib/mysql
+
+  drupal:
+    build: .
+    restart: always
+    depends_on:
+      - mariadb
+    volumes:
+
+      # Let uploads persist.
+      - drupalfiles:/var/www/web/sites/default/files
+
+      # These should be changed to either staging.* or prod.* on the remote
+      # environment.
+      - ./conf/dev.settings.php:/var/www/web/sites/default/settings.php
+      - ./conf/dev.services.yml:/var/www/web/sites/default/services.yml
+
+      # Development only! This allows you to make updates and see the changes
+      # right away. You will want to comment these out for production/staging.
+      - ./src/web/core:/var/www/web/core
+      - ./src/web/modules:/var/www/web/modules
+      - ./src/web/profiles:/var/www/web/profiles
+      - ./src/web/themes:/var/www/web/themes
+      - ./src/web/update.php:/var/www/web/update.php
+      - ./src/vendor:/var/www/vendor
+      - ./src/composer.json:/var/www/composer.json
+      - ./src/composer.lock:/var/www/composer.lock
+      - ./src/phpunit.xml.dist:/var/phpunit.xml
+
+  proxy:
+    image: nginx:1.13-alpine
+    restart: always
+    depends_on:
+      - drupal
+    ports:
+      - 3000:80
+
+      # Uncomment this to expose port 443 (https).
+      # - 443:443
+
+    volumes:
+
+      # Update to either staging.* or prod.* in remote environment.
+      - ./conf/dev.nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./conf/dev.nginx.vh.default.conf:/etc/nginx/conf.d/default.conf:ro
+
+      # Let nginx serve static files - it's good at that.
+      - ./src/web:/var/www/web
+
+# Our drupal uploaded files and database should persist throughout time.
+# More information: https://docs.docker.com/compose/compose-file/#volume-configuration-reference
+volumes:
+  dbstore:
+  drupalfiles:
