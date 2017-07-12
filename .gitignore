@@ -22,3 +22,5 @@ docker-compose.yml
 
 conf/prod.*
 conf/staging.*
+
+.DS_Store
