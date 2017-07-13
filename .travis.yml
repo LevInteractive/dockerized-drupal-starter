@@ -4,9 +4,8 @@ services:
   - docker
 
 script:
-  - cd $TRAVIS_BUILD_DIR/src/web
-  - docker-compose -f ../../docker-compose.dev.yml run drupal ../vendor/phpunit/phpunit/phpunit -c core --testsuite unit --exclude-group Composer,DependencyInjection,PageCache
-  - docker-compose -f ../../docker-compose.dev.yml run drupal ../vendor/bin/drush
+  - docker-compose -f ./docker-compose.dev.yml run drupal ../vendor/phpunit/phpunit/phpunit -c core --testsuite unit --exclude-group Composer,DependencyInjection,PageCache
+  - docker-compose -f ./docker-compose.dev.yml run drupal ../vendor/bin/drush
 
 after_success:
   # Supply the $STACKAHOY_TOKEN, $STACKAHOY_REPO_ID, and $STACKAHOY_BRANCH from
