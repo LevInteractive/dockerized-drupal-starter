@@ -47,4 +47,7 @@ script:
   - if [[ $RELEASE = stable ]]; then ./../vendor/bin/drupal; fi;
 
 after_success:
+  # Supply the $STACKAHOY_TOKEN, $STACKAHOY_REPO_ID, and $STACKAHOY_BRANCH from
+  # stackahoy.io. Stackahoy can take care of any other post-deployment commands
+  # necessary or notifications.
   - if [[ $RELEASE = stable ]]; then docker run -it stackahoy/stackahoy-cli stackahoy deploy --token="$STACKAHOY_TOKEN" --repo="$STACKAHOY_REPO_ID" --branch="$STACKAHOY_BRANCH"; fi;

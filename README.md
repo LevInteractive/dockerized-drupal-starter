@@ -94,6 +94,21 @@ Ideally, our CI will accomplish the following:
 2. Build the latest docker image and push it to a registery.
 3. Deploy code to server based on the branch that was pushed to.
 
+#### Travis CI
+
+See the [.travis.yml](.travis.yml) file. For deployment, simply configure the
+deployment procedure in [stackahoy.io](https://stackahoy.io) and populate the
+three environmental variables in the project settings within Travis.
+
+```yaml
+after_success:
+  # Supply the $STACKAHOY_TOKEN, $STACKAHOY_REPO_ID, and $STACKAHOY_BRANCH from
+  # stackahoy.io. Stackahoy can take care of any other post-deployment commands
+  # necessary or notifications.
+  - if [[ $RELEASE = stable ]]; then docker run -it stackahoy/stackahoy-cli stackahoy deploy --token="$STACKAHOY_TOKEN" --repo="$STACKAHOY_REPO_ID" --branch="$STACKAHOY_BRANCH"; fi;
+```
+
+
 ## Enabling HTTPS (SSL)
 
 We highly recommend you use [Certbot](https://certbot.eff.org/) to create your
