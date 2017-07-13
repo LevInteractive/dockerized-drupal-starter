@@ -18,12 +18,11 @@ The goals of this project are the following:
 
 ## Table of Contents
 
-1. [Installation](#installation)
-2. [Development](#development)
-3. [Project Settings](#project-settings)
-4. [Continuous Integration & Deployment](#continuous-integration-and-deployment)
+1. [Development](#development)
+2. [Project Settings](#project-settings)
+3. [Continuous Integration & Deployment](#continuous-integration-and-deployment)
 
-## Installation
+## Development
 
 Clone or download a zip of this repository and `cd` in to `/src` and run:
 
@@ -31,11 +30,8 @@ Clone or download a zip of this repository and `cd` in to `/src` and run:
 composer install
 ```
 
-This will install the Drupal's core and all dependencies.
-
-## Development
-
-Build and run the development environment with:
+This will install the Drupal's core and all dependencies. Then Build and run the
+development environment with:
 
 ```shell
 docker-compose -f docker-compose.dev.yml up -d
@@ -100,3 +96,57 @@ Ideally, our CI will accomplish the following:
 #### Travis CI Strategy
 
 #### Circle CI Strategy
+
+## Maintaining an SSL Certificate
+
+# Maintaining the SSL.
+
+We highly recommend you use [Certbot](https://certbot.eff.org/) to create your
+SSL certificate.
+
+Before you run the `docker-compose up` command, you'll need to issue the
+certificate into a volume which will be used by nginx.
+
+_Make sure you change "YOUR_DOMAIN.com" to whatever your domain is._
+
+```bash
+# Create the volumes where certificates will persist. They need to persist
+# forever so we can kill the containers without worring about losing them.
+docker volume create --name certs
+docker volume create --name certs-data
+
+# Run a web server for authentication.
+docker run -d --rm \
+  -v certs:/etc/letsencrypt \
+  -v certs-data:/data/letsencrypt \
+  -v $(pwd)/conf/certs.nginx.vh.default.conf:/etc/nginx/conf.d/default.conf \
+  --name ssl_nginx \
+  -p "80:80" \
+  nginx:1.13-alpine
+
+# Initialize the certificates from https://certbot.eff.org/ (EFF!). It's going
+to ask you to provide some information.
+docker run -it --rm \
+  -v certs:/etc/letsencrypt \
+  -v certs-data:/data/letsencrypt \
+  deliverous/certbot \
+  certonly --webroot --webroot-path=/data/letsencrypt -d YOUR_DOMAIN.com
+```
+
+This certificate will last for 90 days. You can create a cronjob which will
+renew it by calling the following script every 80 days or so.
+
+_Make sure you replace "YOUR_NAMESPACE" with whatever the prefix is for your
+containers._
+
+```bash
+# Renew tokens... when ssl expires.
+docker run -t --rm \
+	--volumes-from YOUR_NAMESPACE_proxy_1 \
+	deliverous/certbot \
+	renew \
+	--webroot --webroot-path=/data/letsencrypt
+```
+
+Now simply uncomment the 2 cert volumes in your docker-compose file, and start
+the application.
