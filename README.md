@@ -4,13 +4,14 @@
 
 The goals of this project are the following:
 
-* Provide an end-to-end solution for a Drupal 8 application including both continuous integration and continuous deployment.
+* Provide an end-to-end strategy specific for a Drupal 8 application including both continuous integration and continuous deployment.
 * Composer managed dependencies based on Drupal's [Composer template for Drupal projects](https://github.com/drupal-composer/drupal-project). The core should not be versioned (execept in composer.json).
 * Use Docker for both development and production environments ensuring developer's local
    machine matches the remote environment.
-* No assumptions should be made about the theme or high-level application layer.
+* No assumptions should be made about the theme or high-level application layer. **This project is not a theme.**
 * Strategies for automated continuous integration (CI).
 * Strategies for automated continuous deployment (CD).
+* Provide a easy way to enable SSL/HTTPS using [Certbot](https://certbot.eff.org/).
 
 ## Dependencies
 
