@@ -97,9 +97,7 @@ Ideally, our CI will accomplish the following:
 
 #### Circle CI Strategy
 
-## Maintaining an SSL Certificate
-
-# Maintaining the SSL.
+## Enabling HTTPS (SSL)
 
 We highly recommend you use [Certbot](https://certbot.eff.org/) to create your
 SSL certificate.
