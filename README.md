@@ -109,6 +109,7 @@ able to simply run the following to test it thanks to docker:
 
 ```yaml
 scripts:
+  - docker-compose -f ./docker-compose.dev.yml run drupal /usr/local/bin/composer --working-dir="/var/www" install
   - docker-compose -f ../../docker-compose.dev.yml run drupal ../vendor/phpunit/phpunit/phpunit -c core --testsuite unit --exclude-group Composer,DependencyInjection,PageCache
   - docker-compose -f ../../docker-compose.dev.yml run drupal ../vendor/bin/drush
 ```
