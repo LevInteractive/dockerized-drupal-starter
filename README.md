@@ -1,5 +1,7 @@
 # Enterprise Drupal 8 Starter
 
+[![Build Status](https://travis-ci.org/LevInteractive/enterprise-drupal-starter.svg?branch=master)](https://travis-ci.org/LevInteractive/enterprise-drupal-starter)
+
 The goals of this project are the following:
 
 * Provide an end-to-end solution for a Drupal 8 application including both continuous integration and continuous deployment.
