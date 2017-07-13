@@ -19,7 +19,7 @@ The goals of this project are the following:
 ## Table of Contents
 
 1. [Development](#development)
-2. [Project Settings](#project-settings)
+2. [Project Settings (development, production, staging, ect](#project-settings)
 3. [Continuous Integration & Deployment](#continuous-integration-and-deployment)
 4. [Enabling SSL](#enabling-ssl)
 
