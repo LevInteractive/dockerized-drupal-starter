@@ -21,6 +21,7 @@ The goals of this project are the following:
 1. [Development](#development)
 2. [Project Settings](#project-settings)
 3. [Continuous Integration & Deployment](#continuous-integration-and-deployment)
+4. [Enabling SSL](#enabling-ssl)
 
 ## Development
 
@@ -91,12 +92,6 @@ Ideally, our CI will accomplish the following:
 2. Build the latest docker image and push it to a registery.
 3. Deploy code to server based on the branch that was pushed to.
 
-#### GitLab CI Strategy
-
-#### Travis CI Strategy
-
-#### Circle CI Strategy
-
 ## Enabling HTTPS (SSL)
 
 We highly recommend you use [Certbot](https://certbot.eff.org/) to create your
@@ -117,7 +112,7 @@ docker volume create --name certs-data
 docker run -d --rm \
   -v certs:/etc/letsencrypt \
   -v certs-data:/data/letsencrypt \
-  -v $(pwd)/conf/certs.nginx.vh.default.conf:/etc/nginx/conf.d/default.conf \
+  -v $(pwd)/conf/certbot.nginx.vh.conf:/etc/nginx/conf.d/default.conf \
   --name ssl_nginx \
   -p "80:80" \
   nginx:1.13-alpine
@@ -129,6 +124,9 @@ docker run -it --rm \
   -v certs-data:/data/letsencrypt \
   deliverous/certbot \
   certonly --webroot --webroot-path=/data/letsencrypt -d YOUR_DOMAIN.com
+
+# Stop and remove the certbot nginx instance.
+docker stop ssl_nginx && docker rm ssl_nginx
 ```
 
 This certificate will last for 90 days. You can create a cronjob which will
