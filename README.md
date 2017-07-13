@@ -48,7 +48,7 @@ docker-compose -f docker-compose.dev.yml up -d
 
 See the development environment at: [http://[your-docker-ip]:3000](http://[your-docker-ip]:3000)
 
-### Handy commands during development
+#### Handy commands during development
 
 ```shell
 # Tail php logs.
