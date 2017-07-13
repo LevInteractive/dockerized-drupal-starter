@@ -24,7 +24,7 @@ The goals of this project are the following:
 1. [Development](#development)
 2. [Project Settings (development, production, staging, ect)](#project-settings)
 3. [Continuous Integration & Deployment](#continuous-integration-and-deployment)
-4. [Enabling SSL](#enabling-ssl)
+4. [Enabling SSL](#user-content-enabling-https-ssl)
 
 ## Development
 
@@ -89,10 +89,10 @@ post-receive shell script or just by SSH'ing on the server and creating them.
 
 ## Continuous Integration
 
-Ideally, our CI will accomplish the following:
+Ideally, the CI will accomplish the following:
 
 1. Build the latest docker image and push it to a registery. There are a few
-   differnt registeries you can go with. Some popular options being:
+   different registries you can go with. Some popular options being:
      * [Docker Hub](https://hub.docker.com/)
      * [GitLab](https://about.gitlab.com/)
      * [Google Cloud](https://cloud.google.com/container-registry/)
@@ -120,7 +120,8 @@ because Docker will handle that for you. Pretty easy, eh?
 
 See the [.travis.yml](.travis.yml) file. For deployment, simply configure the
 deployment procedure in [stackahoy.io](https://stackahoy.io) and populate the
-three environmental variables in the project settings within Travis.
+three environmental variables in the project settings within Travis. This works
+very similarly in most other CI providers.
 
 ```yaml
 after_success:
@@ -183,5 +184,12 @@ docker run -t --rm \
 	--webroot --webroot-path=/data/letsencrypt
 ```
 
-Now simply uncomment the 2 cert volumes in your docker-compose file, and start
-the application.
+Now in order for it to work, you'll need to configure the prod.nginx.vh.conf
+file to use the certs and uncomment the 2 cert volumes in the docker-compose
+file. The nginx file will need:
+
+```nginx
+ssl_certificate           /etc/letsencrypt/live/YOUR_DOMAIN.com/fullchain.pem;
+ssl_certificate_key       /etc/letsencrypt/live/YOUR_DOMAIN.com/privkey.pem;
+ssl_trusted_certificate   /etc/letsencrypt/live/YOUR_DOMAIN.com/chain.pem;
+```
