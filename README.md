@@ -90,11 +90,32 @@ post-receive shell script or just by SSH'ing on the server and creating them.
 
 Ideally, our CI will accomplish the following:
 
-1. Test the code's integrity with PHPUnit.
-2. Build the latest docker image and push it to a registery.
-3. Deploy code to server based on the branch that was pushed to.
+1. Build the latest docker image and push it to a registery. There are a few
+   differnt registeries you can go with. Some popular options being:
+     * [Docker Hub](https://hub.docker.com/)
+     * [GitLab](https://about.gitlab.com/)
+     * [Google Cloud](https://cloud.google.com/container-registry/)
+     * [AWS](https://aws.amazon.com/ecr/)
+2. Test the container/code with PHPUnit.
+3. Deploy code to server based on the branch that was pushed to. [stackahoy.io](https://stackahoy.io) allows
+   you to handle your deployment specific dependencies (servers, post deployment
+   commands, ect) while using the command-line to trigger it.
 
-#### Travis CI
+#### Testing
+
+Whether you're using GitLab, Travis, CicleCI, or another CI provider, you'll be
+able to simply run the following to test it thanks to docker:
+
+```yaml
+scripts:
+  - docker-compose -f ../../docker-compose.dev.yml run drupal ../vendor/phpunit/phpunit/phpunit -c core --testsuite unit --exclude-group Composer,DependencyInjection,PageCache
+  - docker-compose -f ../../docker-compose.dev.yml run drupal ../vendor/bin/drush
+```
+
+You won't have to rely on the CI provider to spin up a instance of php or mysql
+because Docker will handle that for you. Pretty easy, eh?
+
+#### Deployment
 
 See the [.travis.yml](.travis.yml) file. For deployment, simply configure the
 deployment procedure in [stackahoy.io](https://stackahoy.io) and populate the
