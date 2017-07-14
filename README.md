@@ -1,6 +1,6 @@
 # Dockerized Drupal 8 Starter
 
-[![Build Status](https://travis-ci.org/LevInteractive/enterprise-drupal-starter.svg?branch=master)](https://travis-ci.org/LevInteractive/enterprise-drupal-starter)
+[![Build Status](https://travis-ci.org/LevInteractive/dockerized-drupal-starter.svg?branch=master)](https://travis-ci.org/LevInteractive/dockerized-drupal-starter)
 
 The goals of this project are the following:
 
