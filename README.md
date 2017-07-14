@@ -67,12 +67,11 @@ You'll notice by looking at the [docker-compose.yml](docker-compose.yml)
 file that what the environmental variables are set to are not very secure. When
 it comes time to stage the application you're going to want to do two things:
 
-1. Create production-ready [conf/](/conf/) files (nginx and settings). Files
-   appended with `conf/prod.*` or `conf/staging.*`. These are already ignored in the
-   .gitignore file for convenience.
-2. Upon file/container deployment, create a docker-compose.(prod|staging|anything).yml file (notice it's
+1. Upon file deployment, create production-ready [conf/](/conf/) files (nginx and settings). For example,
+   `prod.nginx.vh.default.conf` which will point to your real world domain.
+2. Upon file deployment, create a docker-compose.(prod|staging|anything).yml file (notice it's
    ignored in the [.gitignore](.gitignore) file) with updated volumes pointed to
-   the conf files you created in step one.
+   the conf files you created in step one (the drupal and nginx service).
 
 These files can be managed, stored, and deployed securely using [Stackahoy's](https://stackahoy.io/)
 static files feature. Aternatively, you create them on the fly with a
