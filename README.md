@@ -21,7 +21,7 @@ The goals of this project are the following:
 ## Table of Contents
 
 1. [Development](#development)
-2. [Project Settings (development, production, staging, ect)](#project-settings)
+2. [Environment Specific Configurations](#environment-specific-configurations)
 3. [Continuous Integration & Deployment](#continuous-integration-and-deployment)
 4. [Enabling SSL](#user-content-enabling-https-ssl)
 
@@ -61,7 +61,7 @@ docker-compose down --volume
 docker volume ls
 ```
 
-## Project Settings
+## Environment Specific Configurations
 
 You'll notice by looking at the [docker-compose.yml](docker-compose.yml)
 file that what the environmental variables are set to are not very secure. When
