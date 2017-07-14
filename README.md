@@ -67,11 +67,12 @@ You'll notice by looking at the [docker-compose.yml](docker-compose.yml)
 file that what the environmental variables are set to are not very secure. When
 it comes time to stage the application you're going to want to do two things:
 
-1. Upon file/container deployment, create a docker-compose.yml file (notice it's
-   ignored in the [.gitignore](.gitignore) file).
-2. Create either dev.* or prod.* versions of the [conf/](/conf/) files which
-   will mirror the credentials in the [docker-compose.yml](docker-compose.yml) file.
-   These files are also ignored and not included in the repository or container.
+1. Create production-ready [conf/](/conf/) files (nginx and settings). Files
+   appended with `conf/prod.*` or `conf/staging.*`. These are already ignored in the
+   .gitignore file for convenience.
+2. Upon file/container deployment, create a docker-compose.(prod|staging|anything).yml file (notice it's
+   ignored in the [.gitignore](.gitignore) file) with updated volumes pointed to
+   the conf files you created in step one.
 
 These files can be managed, stored, and deployed securely using [Stackahoy's](https://stackahoy.io/)
 static files feature. Aternatively, you create them on the fly with a
