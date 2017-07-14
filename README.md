@@ -27,23 +27,14 @@ The goals of this project are the following:
 
 ## Development
 
-Clone or download a zip of this repository and `cd` in to `/src` and run:
+Clone or download a zip of this repository and `cd` into it.
 
 ```shell
-composer install
-```
+# Install deps. (will install on your actual machine because of volumes).
+docker-compose run drupal composer --working-dir="/var/www" install
 
-This will install the Drupal's core and all dependencies. Then Build and run the
-development environment with:
-
-```shell
-docker-compose -f docker-compose.dev.yml up -d
-
-
-# You may want to add a namespace other than the directory the project is in. To
-# do so provide a `-p` flag specifying the name of the project:
-
-# docker-compose -p my_project -f docker-compose.dev.yml up -d
+# Run the dev environment.
+docker-compose up -d
 ```
 
 See the development environment at: [http://[your-docker-ip]:3000](http://[your-docker-ip]:3000)
@@ -55,16 +46,16 @@ See the development environment at: [http://[your-docker-ip]:3000](http://[your-
 docker logs -f <project-name>_drupal_1
 
 # (Re-)build the
-docker-compose -f docker-compose.dev.yml build
+docker-compose build
 
 # View running containers.
 docker images
 
 # Destroy containers, but leave database and files volume.
-docker-compose -f docker-compose.dev.yml down
+docker-compose down
 
 # Destroy the database and drupal file persistent volume.
-docker-compose -f docker-compose.dev.yml down --volume
+docker-compose down --volume
 
 # See all project volumes.
 docker volume ls
@@ -72,14 +63,14 @@ docker volume ls
 
 ## Project Settings
 
-You'll notice by looking at the [docker-compose.dev.yml](docker-compose.dev.yml)
+You'll notice by looking at the [docker-compose.yml](docker-compose.yml)
 file that what the environmental variables are set to are not very secure. When
 it comes time to stage the application you're going to want to do two things:
 
 1. Upon file/container deployment, create a docker-compose.yml file (notice it's
    ignored in the [.gitignore](.gitignore) file).
 2. Create either dev.* or prod.* versions of the [conf/](/conf/) files which
-   will mirror the credentials in the [docker-compose.dev.yml](docker-compose.dev.yml) file.
+   will mirror the credentials in the [docker-compose.yml](docker-compose.yml) file.
    These files are also ignored and not included in the repository or container.
 
 These files can be managed, stored, and deployed securely using [Stackahoy's](https://stackahoy.io/)
@@ -108,9 +99,9 @@ able to simply run the following to test it thanks to docker:
 
 ```yaml
 scripts:
-  - docker-compose -f ./docker-compose.dev.yml run drupal /usr/local/bin/composer --working-dir="/var/www" install
-  - docker-compose -f ../../docker-compose.dev.yml run drupal ../vendor/phpunit/phpunit/phpunit -c core --testsuite unit --exclude-group Composer,DependencyInjection,PageCache
-  - docker-compose -f ../../docker-compose.dev.yml run drupal ../vendor/bin/drush
+  - docker-compose run drupal /usr/local/bin/composer --working-dir="/var/www" install
+  - docker-compose run drupal ../vendor/phpunit/phpunit/phpunit -c core --testsuite unit --exclude-group Composer,DependencyInjection,PageCache
+  - docker-compose run drupal ../vendor/bin/drush
 ```
 
 You won't have to rely on the CI provider to spin up a instance of php or mysql

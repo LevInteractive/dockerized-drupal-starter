@@ -1,8 +1,11 @@
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 #
 # This docker-compose is meant to be used in development. For other remote
-# envrionments, it should be copied to docker-compose.yml and populated with
+# envrionments, it should be copied to docker-compose.*.yml and populated with
 # more secure credentials.
+#
+#   Example: docker-compose.production.yml
+#   docker-compose -f docker-compose.production.yml [COMMANDS HERE]
 #
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 version: '3.1'
@@ -14,7 +17,7 @@ services:
     environment:
 
       # Clearly, these credentials are not secure and you should change them for
-      # the remote environment's docker-compose.yml.
+      # the remote environment's docker-compose.*.yml.
       MYSQL_ROOT_PASSWORD: drupal
       MYSQL_DATABASE: drupal
       MYSQL_USER: drupal

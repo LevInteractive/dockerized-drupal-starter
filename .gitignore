@@ -17,9 +17,10 @@ src/web/sites/*/files/
 # Ignore SimpleTest multi-site environment.
 src/web/sites/simpletest
 
-# Create one on the fly!
-docker-compose.yml
+# Ignore environment specific compose files.
+docker-compose.*.yml
 
+# Ignore environment specific conf files.
 conf/prod.*
 conf/staging.*
 
