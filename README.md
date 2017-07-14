@@ -4,8 +4,8 @@
 
 The goals of this project are the following:
 
-* Strategies for automated continuous integration (CI).
-* Strategies for automated continuous deployment (CD).
+* Strategies for continuous integration (CI).
+* Strategies for continuous deployments (CD).
 * Composer managed dependencies based on Drupal's [Composer template for Drupal projects](https://github.com/drupal-composer/drupal-project). The core should not be versioned (execept in composer.json).
 * Use Docker for both development and production environments ensuring developer's local
    machine matches the remote environment.
