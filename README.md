@@ -31,10 +31,13 @@ Clone or download a zip of this repository and `cd` into it.
 
 ```shell
 # Install deps. (will install on your actual machine because of volumes).
-docker-compose run drupal composer --working-dir="/var/www" install
+docker-compose run --rm drupal composer --working-dir="/var/www" install
 
 # Run the dev environment.
 docker-compose up -d
+
+# Use drush.
+docker-compose run --rm drupal /var/www/vendor/bin/drush ...
 ```
 
 See the development environment at: [http://[your-docker-ip]:3000](http://[your-docker-ip]:3000)
