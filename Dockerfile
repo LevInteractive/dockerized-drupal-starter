@@ -30,7 +30,7 @@ RUN { \
 
 # Install composer and drush.
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer && \
-  composer global require drush/drush:7.* && \
+  composer global require drush/drush:8.* && \
   echo 'export PATH=/var/www/vendor/bin:$PATH' >> $HOME/.bashrc
 
 # Final provisioning.
