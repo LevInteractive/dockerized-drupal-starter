@@ -30,13 +30,16 @@ RUN { \
 
 # Install composer and drush.
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer && \
-  composer global require drush/drush:8.* && \
-  echo 'export PATH=/var/www/vendor/bin:$PATH' >> $HOME/.bashrc
+  echo 'export PATH=/var/www/vendor/bin:$PATH' >> $HOME/.bashrc && \
+  apt-get update && \
+  apt-get install -y mysql-client openssh-client rsync && \
+  rm -rf /var/lib/apt/lists/*
 
-# Final provisioning.
+# Move files into the container.
 COPY src/ /var/www/
-RUN cd /var/www && \
-  composer install && \
-  cd /var/www/web && \
-  chown -R www-data:www-data sites modules themes
+
+WORKDIR /var/www
+
+RUN composer install && ln -s /var/www/vendor/bin/drush /usr/local/bin/drush
+
 WORKDIR /var/www/web
