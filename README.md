@@ -37,7 +37,7 @@ docker-compose run --rm drupal composer --working-dir="/var/www" install
 docker-compose up -d
 
 # Use drush.
-docker-compose run --rm drupal /var/www/vendor/bin/drush ...
+docker-compose run --rm drupal drush ...
 ```
 
 See the development environment at: [http://[your-docker-ip]:3000](http://[your-docker-ip]:3000)
